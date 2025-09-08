@@ -3,6 +3,7 @@ import Piece from "./Piece";
 export default class Rook extends Piece {
   constructor(color, x, y) {
     super(color, x, y);
+    this.moved = false;
   }
 
   hasLine(dst) {

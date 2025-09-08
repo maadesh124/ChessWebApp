@@ -7,17 +7,20 @@ export default class Piece {
   }
 
   isValidMove(board, dst) {
-    //throw new Error("isValidMove() must be implemented");
     if (
       !isValid(this.x, this.y) ||
       !isValid(dst[0], dst[1]) ||
       (board[dst[0]][dst[1]] !== null &&
         board[dst[0]][dst[1]].color === this.color) ||
-      (board[dst[0]][dst[1]] !== null &&
-        board[dst[0]][dst[1]].constructor.name === "King") ||
+      // (board[dst[0]][dst[1]] !== null &&
+      //   board[dst[0]][dst[1]].constructor.name === "King") ||
       (this.x === dst[0] && this.y === dst[1])
     )
       return false;
     return true;
+  }
+
+  canAttack(board, dst) {
+    return this.isValidMove(board, dst);
   }
 }

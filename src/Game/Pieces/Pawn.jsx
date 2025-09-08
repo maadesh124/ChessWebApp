@@ -30,4 +30,16 @@ export default class Pawn extends Piece {
         board[dst[0]][dst[1]].color === oppColor
       );
   }
+  canAttack(board, dst) {
+    if (!super.isValidMove(board, dst)) return false;
+    const diff = this.color === 0 ? 1 : -1;
+    const oppColor = this.color === 0 ? 1 : 0;
+
+    if (dst[1] - this.y !== diff || Math.abs(this.x - dst[0]) !== 1)
+      return false;
+
+    return (
+      board[dst[0]][dst[1]] === null || board[dst[0]][dst[1]].color === oppColor
+    );
+  }
 }
