@@ -34,4 +34,21 @@ export default class Rook extends Piece {
 
     return true;
   }
+
+  getPath(board, dst) {
+    if (!isValid(this.x, this.y) || !isValid(dst[0], dst[1])) return null;
+
+    if (this.x !== dst[0] && this.y !== dst[1]) return null;
+    let path = [];
+    const dx = Math.sign(dst[0] - this.x);
+    const dy = Math.sign(dst[1] - this.y);
+    let x = this.x + dx,
+      y = this.y + dy;
+    while (x !== dst[0] || y !== dst[1]) {
+      if (board[x][y] !== null) path.push(board[x][y]);
+      x += dx;
+      y += dy;
+    }
+    return path;
+  }
 }

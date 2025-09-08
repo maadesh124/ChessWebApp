@@ -24,4 +24,27 @@ export default class Bishop extends Piece {
 
     return true;
   }
+
+  getPath(board, dst) {
+    if (!isValid(this.x, this.y) || !isValid(dst[0], dst[1])) return null;
+    const dx = dst[0] - this.x;
+    const dy = dst[1] - this.y;
+
+    // Check if move is diagonal
+    if (Math.abs(dx) !== Math.abs(dy)) return null;
+
+    let path = [];
+    const stepX = dx > 0 ? 1 : -1;
+    const stepY = dy > 0 ? 1 : -1;
+    let x = this.x + stepX;
+    let y = this.y + stepY;
+
+    while (x !== dst[0] && y !== dst[1]) {
+      if (board[x][y] !== null) path.push(board[x][y]);
+      x += stepX;
+      y += stepY;
+    }
+
+    return path; // empty array if path is clear
+  }
 }

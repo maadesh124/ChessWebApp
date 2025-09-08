@@ -10,12 +10,23 @@ export default class Queen extends Piece {
   }
 
   isValidMove(board, dst) {
+    this.syncPos();
+    return (
+      this.rook.isValidMove(board, dst) || this.bishop.isValidMove(board, dst)
+    );
+  }
+
+  syncPos() {
     this.rook.x = this.x;
     this.rook.y = this.y;
     this.bishop.x = this.x;
     this.bishop.y = this.y;
-    return (
-      this.rook.isValidMove(board, dst) || this.bishop.isValidMove(board, dst)
-    );
+  }
+
+  getPath(board, dst) {
+    this.syncPos();
+    let bishop = this.bishop.getPath(board, dst);
+    if (bishop === null) return this.rook.getPath(board, dst);
+    return bishop;
   }
 }

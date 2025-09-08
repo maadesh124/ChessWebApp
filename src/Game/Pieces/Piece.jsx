@@ -23,4 +23,11 @@ export default class Piece {
   canAttack(board, dst) {
     return this.isValidMove(board, dst);
   }
+
+  getPath(
+    board,
+    dst //excluding src and dst
+  ) {
+    return null;
+  }
 }
