@@ -1,0 +1,4 @@
+class Board {
+  pieces = [[]];
+  constructor() {}
+}
