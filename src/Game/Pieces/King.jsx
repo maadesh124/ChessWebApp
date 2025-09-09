@@ -6,13 +6,17 @@ export default class King extends Piece {
     this.moved = false;
   }
 
-  hasLine(dst) {
-    return Math.abs(this.x - dst[0]) <= 1 && Math.abs(this.y - dst[1]) <= 1;
+  static isReachable(src, dst) {
+    return Math.abs(src[0] - dst[0]) <= 1 && Math.abs(src[1] - dst[1]) <= 1;
   }
 
   isValidMove(board, dst) {
-    if (this.canCastle(board, dst)) return true;
-    return super.isValidMove(board, dst) && this.hasLine(dst);
+    const oppColor = this.color === 0 ? 1 : 0;
+    if (board.isUnderAttack(dst, oppColor)) return false;
+    //if (this.canCastle(board, dst)) return true;
+    return (
+      super.validate(board, dst) && King.isReachable([this.x, this.y], dst)
+    );
   }
 
   canCastle(board, dst) {

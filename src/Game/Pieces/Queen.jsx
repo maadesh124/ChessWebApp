@@ -8,13 +8,19 @@ export default class Queen extends Piece {
     this.rook = new Rook(color, x, y);
     this.bishop = new Bishop(color, x, y);
   }
-
-  isValidMove(board, dst) {
-    this.syncPos();
-    return (
-      this.rook.isValidMove(board, dst) || this.bishop.isValidMove(board, dst)
-    );
+  static isReachable(src, dst) {
+    return Bishop.isReachable(src, dst) || Rook.isReachable(src, dst);
   }
+  static next(src, dst) {
+    if (super.next(src, dst) !== undefined) return super.next(src, dst);
+    if (Bishop.isReachable(src, dst)) return Bishop.next(src, dst);
+    return Rook.next(src, dst);
+  }
+
+  // isValidMove(board, dst) {
+  //   this.syncPos();
+  //   return super.isValidMove(board, dst);
+  // }
 
   syncPos() {
     this.rook.x = this.x;
@@ -23,10 +29,8 @@ export default class Queen extends Piece {
     this.bishop.y = this.y;
   }
 
-  getPath(board, dst) {
-    this.syncPos();
-    let bishop = this.bishop.getPath(board, dst);
-    if (bishop === null) return this.rook.getPath(board, dst);
-    return bishop;
-  }
+  // getPath(board, dst) {
+  //   this.syncPos();
+  //   super.getPath(board, dst);
+  // }
 }

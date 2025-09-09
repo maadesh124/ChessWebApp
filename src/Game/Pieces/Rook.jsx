@@ -1,4 +1,5 @@
 import Piece from "./Piece";
+import { isValid } from "../Helper";
 
 export default class Rook extends Piece {
   constructor(color, x, y) {
@@ -6,49 +7,46 @@ export default class Rook extends Piece {
     this.moved = false;
   }
 
-  hasLine(dst) {
-    return this.x === dst[0] || this.y === dst[1];
-  }
-  isValidMove(board, dst) {
-    if (!super.isValidMove(board, dst) || !this.hasLine(dst)) return false;
-
-    if (this.x === dst[0]) {
-      const min = Math.min(this.y, dst[1]);
-      const max = Math.max(this.y, dst[1]);
-      let yc = min + 1;
-      while (yc < max) {
-        if (board[x][yc] !== null) return false;
-        yc++;
-      }
-    }
-
-    if (this.y === dst[1]) {
-      const min = Math.min(this.x, dst[0]);
-      const max = Math.max(this.x, dst[0]);
-      let xc = min + 1;
-      while (xc < max) {
-        if (board[xc][y] !== null) return false;
-        xc++;
-      }
-    }
-
+  static isReachable(src, dst) {
+    if (src[0] !== dst[0] && src[1] !== dst[1]) return false;
     return true;
   }
+  static next(src, dst) {
+    if (super.next(src, dst) !== undefined) return super.next(src, dst);
 
-  getPath(board, dst) {
-    if (!isValid(this.x, this.y) || !isValid(dst[0], dst[1])) return null;
-
-    if (this.x !== dst[0] && this.y !== dst[1]) return null;
-    let path = [];
     const dx = Math.sign(dst[0] - this.x);
     const dy = Math.sign(dst[1] - this.y);
-    let x = this.x + dx,
-      y = this.y + dy;
-    while (x !== dst[0] || y !== dst[1]) {
-      if (board[x][y] !== null) path.push(board[x][y]);
-      x += dx;
-      y += dy;
-    }
-    return path;
+    return [src[0] + dx, src[1] + dy];
   }
+
+  // isValidMove(board, dst) {
+  //   if (
+  //     !super.isValidMove(board, dst) ||
+  //     !Rook.isReachable([this.x, this.y], dst)
+  //   )
+  //     return false;
+
+  //   let cur = next([this.x, this.y], dst);
+  //   while (cur != null) {
+  //     if (board[cur[0]][cur[1]] !== null) return false;
+  //     cur = Rook.next(cur, dst);
+  //   }
+
+  //   return true;
+  // }
+
+  // getPath(board, dst) {
+  //   if (
+  //     !super.validate(board, dst) ||
+  //     !this.constructor.isReachable([this.x, this.y], dst)
+  //   )
+  //     return null;
+  //   let path = [];
+  //   let cur = this.constructor.next([this.x, this.y], dst);
+  //   while (cur !== 1) {
+  //     if (board[cur[0]][cur[1]] !== null) path.push(board[cur[0]][cur[1]]);
+  //     cur = this.constructor.next(cur, dst);
+  //   }
+  //   return path;
+  // }
 }

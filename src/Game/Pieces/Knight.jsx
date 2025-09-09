@@ -5,18 +5,14 @@ export default class Knight extends Piece {
     super(color, x, y);
   }
 
+  static isReachable(src, dst) {
+    const dx = Math.abs(src[0] - dst[0]);
+    const dy = Math.abs(src[1] - dst[1]);
+    return (dx === 1 && dy === 2) || (dx === 2 && dy === 1);
+  }
+
   isValidMove(board, dst) {
-    if (!super.isValidMove(board, dst)) return false;
-
-    const dx = [1, -1, 2, -2];
-    const dy = [1, -1, 2, -2];
-
-    for (let i = 0; i < dx.length; i++) {
-      for (let j = 0; j < dy.length; j++) {
-        if (Math.abs(dx[i]) === Math.abs(dy[j])) continue;
-        if (this.x + dx[i] === dst[0] && this.y + dy[j] === dst[1]) return true;
-      }
-    }
-    return false;
+    if (!super.validate(board, dst)) return false;
+    return Knight.isReachable([this.x, this.y], dst);
   }
 }
