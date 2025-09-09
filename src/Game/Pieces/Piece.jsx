@@ -19,11 +19,14 @@ export default class Piece {
     return true;
   }
   isValidMove(board, dst) {
-    if (!this.validate(board, dst) || !isReachable([this.x, this.y], dst))
+    if (
+      !this.validate(board, dst) ||
+      !this.constructor.isReachable([this.x, this.y], dst)
+    )
       return false;
 
     let cur = this.constructor.next([this.x, this.y], dst);
-    while (cur != 1) {
+    while (!(cur[0] === dst[0] && cur[1] === dst[1])) {
       if (board[cur[0]][cur[1]] !== null) return false;
       cur = this.constructor.next(cur, dst);
     }
@@ -31,10 +34,11 @@ export default class Piece {
     return true;
   }
 
+  //always use this after checking reachability
   static next(src, dst) {
-    if (!isValid(src[0], src[1]) || !isValid(dst[0], dst[1])) return 0;
-    if (src[0] === dst[0] && src[1] === dst[1]) return 1;
-    if (!this.isReachable(src, dst)) return 0;
+    if (!isValid(src[0], src[1]) || !isValid(dst[0], dst[1])) return null;
+    if (src[0] === dst[0] && src[1] === dst[1]) return [dst[0], dst[1]];
+    if (!this.isReachable(src, dst)) return null;
     return undefined;
   }
   static isReachable(src, dst) {}
@@ -44,15 +48,24 @@ export default class Piece {
     return this.isValidMove(board, dst);
   }
 
+  isSlidingPiece() {
+    return (
+      this.constructor.name === "Rook" ||
+      this.constructor.name === "Bishop" ||
+      this.constructor.name === "Queen"
+    );
+  }
+
   getPath(board, dst) {
     if (
-      !super.validate(board, dst) ||
+      !this.validate(board, dst) ||
       !this.constructor.isReachable([this.x, this.y], dst)
     )
       return null;
+    if (!this.isSlidingPiece()) return [];
     let path = [];
     let cur = this.constructor.next([this.x, this.y], dst);
-    while (cur !== 1) {
+    while (!(cur[0] === dst[0] && cur[1] === dst[1])) {
       if (board[cur[0]][cur[1]] !== null) path.push(board[cur[0]][cur[1]]);
       cur = this.constructor.next(cur, dst);
     }

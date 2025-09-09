@@ -10,13 +10,24 @@ export default class King extends Piece {
     return Math.abs(src[0] - dst[0]) <= 1 && Math.abs(src[1] - dst[1]) <= 1;
   }
 
+  //this includes all cases like dst being supported by opponent piece
   isValidMove(board, dst) {
+    if (!super.validate(board, dst) || !King.isReachable([this.x, this.y], dst))
+      return false;
     const oppColor = this.color === 0 ? 1 : 0;
-    if (board.isUnderAttack(dst, oppColor)) return false;
-    //if (this.canCastle(board, dst)) return true;
-    return (
-      super.validate(board, dst) && King.isReachable([this.x, this.y], dst)
-    );
+    if (
+      board.isUnderAttack(dst, oppColor) ||
+      board.kings[oppColor].canAttack(board, dst)
+    )
+      return false;
+    return true;
+  }
+
+  canAttack(board, dst) {
+    if (!super.validate(board, dst) || !King.isReachable([this.x, this.y], dst))
+      return false;
+
+    return true;
   }
 
   canCastle(board, dst) {
