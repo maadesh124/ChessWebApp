@@ -58,7 +58,8 @@ function initialise(globalRef) {
     }
 
     console.log(`Received message from Server:${event.data} ${message.mess}`);
-
+    const src = message.src;
+    const dst = message.dst;
     if (src == null || dst == null) {
       console.log(`${src} ${dst} `);
       return;
