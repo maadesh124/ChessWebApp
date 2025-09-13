@@ -9,14 +9,20 @@ function App() {
   const [page, setpage] = useState(0);
   const globalRef = useRef({});
   globalRef.current.setpage = setpage;
-  globalRef.current.roomId = "Qa45uj";
-  globalRef.current.boardSize = 800;
+  globalRef.current.boardSize =
+    0.8 * Math.min(window.innerHeight, window.innerWidth);
 
-  const size = Math.min(window.innerHeight, window.innerHeight);
   return (
     <>
-      {page === 0 && <Home globalRef={globalRef}> </Home>}
-      {page === 1 && <ChessBoard globalRef={globalRef}></ChessBoard>}
+      {page === 0 && <Home globalRef={globalRef} />}
+
+      {page === 1 && (
+        <div className="fixed inset-0 bg-gradient-to-br from-gray-900 to-gray-800">
+          <div className="flex justify-center items-center min-h-screen">
+            <ChessBoard globalRef={globalRef} boardSize={600} />
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -52,6 +52,12 @@ function initialise(globalRef) {
   ws.onmessage = event => {
     const message = JSON.parse(event.data.toString());
     console.log(`move from server =${event.data}`);
+
+    if (message.mess === "exit") {
+      alert("Your opponent has quit the game");
+    }
+    const res = globalRef.current.board.move(src, dst);
+    console.log(`Received message from Server:${event.data} ${message.mess}`);
     const src = message.src;
     const dst = message.dst;
     if (src == null || dst == null) {
@@ -59,16 +65,21 @@ function initialise(globalRef) {
       return;
     }
 
-    const res = globalRef.current.board.move(src, dst);
-    console.log(`Received message from Server:${event.data}`);
     console.log(`${res}`);
-    if (res === Chess.VALID_MOVE) {
+    if (
+      res === Chess.VALID_MOVE ||
+      res === Chess.CHECKMATE ||
+      res === Chess.STALE_MATE
+    ) {
       globalRef.current.setBoardState(globalRef.current.board.getBoardState());
     }
-    if (res === Chess.CHECKMATE || res === Chess.STALE_MATE) {
-      globalRef.current.setBoardState(globalRef.current.board.getBoardState());
-      alert(`player ${1 - globalRef.current.color} won the game`);
+
+    if (res === Chess.CHECKMATE) {
+      const winColor = globalRef.current.color === 0 ? "Black" : "White";
+      alert(`player ${winColor} won the game`);
     }
+
+    if (res === Chess.STALE_MATE) alert(`It's a Tie`);
     if (res === Chess.PROMOTE) {
       console.log(`${event.data}`);
       globalRef.current.board.promote(dst, message.promote);
