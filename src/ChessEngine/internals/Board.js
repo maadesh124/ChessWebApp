@@ -80,7 +80,7 @@ export default class Board {
 
     if (
       this.pieces[dst[0]][dst[1]] != null &&
-      this.pieces[dst[0]][dst[1]].constructor.name === "King"
+      this.pieces[dst[0]][dst[1]].type === "King"
     ) {
       return Board.INVALID_MOVE;
     }
@@ -91,7 +91,7 @@ export default class Board {
     )
       return Board.INVALID_MOVE;
 
-    if (piece.constructor.name === "King" && piece.castle(this, dst)) {
+    if (piece.type === "King" && piece.castle(this, dst)) {
       this.play = (this.play + 1) % 2;
       return Board.VALID_MOVE;
     }
@@ -104,16 +104,14 @@ export default class Board {
     //logAllPiece(this);
     //logAllPiece(this, true);
 
-    if (piece.constructor.name === "Rook" || piece.constructor.name === "King")
-      piece.moved = true;
+    if (piece.type === "Rook" || piece.type === "King") piece.moved = true;
 
     const isMate = this.isMate(opp);
     if (isMate === 1) return Board.CHECKMATE;
     if (isMate === 2) return Board.STALE_MATE;
 
     this.play = (this.play + 1) % 2;
-    if (piece.constructor.name === "Pawn" && piece.canPromote())
-      return Board.PROMOTE;
+    if (piece.type === "Pawn" && piece.canPromote()) return Board.PROMOTE;
     return Board.VALID_MOVE;
   }
 
@@ -165,8 +163,7 @@ export default class Board {
   promote(src, promotionPiece = "Queen") {
     if (!isValid(src)) return Board.INVALID_PROMOTION;
     let pawn = this.pieces[src[0]][src[1]];
-    if (pawn == null || pawn.constructor.name !== "Pawn")
-      return Board.INVALID_PROMOTION;
+    if (pawn == null || pawn.type !== "Pawn") return Board.INVALID_PROMOTION;
     if (!pawn.canPromote()) return Board.INVALID_PROMOTION;
     pawn.replaceWith(this, promotionPiece);
     return Board.VALID_PROMOTION;

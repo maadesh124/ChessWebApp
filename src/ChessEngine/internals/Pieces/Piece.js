@@ -1,24 +1,23 @@
 import { isValid, colorOf, arrayHas, filename } from "../Helper.js";
 import fs from "fs";
 export default class Piece {
-  constructor(color, x, y) {
+  constructor(color, x, y, type) {
     this.color = color;
     this.x = x;
     this.y = y;
     this.attackSquares = [];
+    this.type = type;
   }
 
   toString() {
-    return `Piece(${this.color == 0 ? "white" : "black"} ${
-      this.constructor.name
-    }, ${this.x}, ${this.y})`;
+    return `Piece(${this.color == 0 ? "white" : "black"} ${this.type}, ${
+      this.x
+    }, ${this.y})`;
   }
 
   isSlidingPiece() {
     return (
-      this.constructor.name === "Rook" ||
-      this.constructor.name === "Bishop" ||
-      this.constructor.name === "Queen"
+      this.type === "Rook" || this.type === "Bishop" || this.type === "Queen"
     );
   }
 
@@ -59,7 +58,7 @@ export default class Piece {
       let dst = [this.attackSquares[i][0], this.attackSquares[i][1]];
       let piece = board.pieces[dst[0]][dst[1]];
       if (piece != null && piece.color === this.color) continue;
-      if (piece != null && piece.constructor.name === "King") continue;
+      if (piece != null && piece.type === "King") continue;
 
       let src = [this.x, this.y];
       let dstPiece = board.pieces[dst[0]][dst[1]];

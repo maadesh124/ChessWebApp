@@ -3,7 +3,7 @@ import { isValid } from "../Helper.js";
 
 export default class Knight extends Piece {
   constructor(color, x, y) {
-    super(color, x, y);
+    super(color, x, y, "Knight");
   }
   updateAttackSquares(board) {
     this.attackSquares = [];

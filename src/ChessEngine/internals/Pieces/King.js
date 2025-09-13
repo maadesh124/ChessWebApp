@@ -3,7 +3,7 @@ import { isValid } from "../Helper.js";
 
 export default class King extends Piece {
   constructor(color, x, y) {
-    super(color, x, y);
+    super(color, x, y, "King");
     this.moved = false;
   }
 
@@ -30,7 +30,7 @@ export default class King extends Piece {
     const rook = board.pieces[rookX][rank];
     if (
       !rook ||
-      rook.constructor.name !== "Rook" ||
+      rook.type !== "Rook" ||
       rook.color !== this.color ||
       rook.moved ||
       this.moved

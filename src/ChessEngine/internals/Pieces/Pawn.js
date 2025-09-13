@@ -6,7 +6,7 @@ import Bishop from "./Bishop.js";
 import Rook from "./Rook.js";
 export default class Pawn extends Piece {
   constructor(color, x, y) {
-    super(color, x, y);
+    super(color, x, y, "Pawn");
   }
   updateAttackSquares(board) {
     this.attackSquares = [];
@@ -24,11 +24,7 @@ export default class Pawn extends Piece {
       let dst = this.attackSquares[i];
 
       let piece = board.pieces[dst[0]][dst[1]];
-      if (
-        piece == null ||
-        piece.constructor.name === "King" ||
-        piece.color === this.color
-      )
+      if (piece == null || piece.type === "King" || piece.color === this.color)
         continue;
       let src = [this.x, this.y];
       let dstPiece = board.pieces[dst[0]][dst[1]];
