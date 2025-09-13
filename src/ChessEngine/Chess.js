@@ -47,6 +47,7 @@ export default class Chess {
       for (let y = 0; y < 8; y++) {
         const piece = this.#board.pieces[x][y]; // row = y, col = x
         state[x][y] = piece ? `${piece.constructor.name}${piece.color}` : null;
+        if (piece) console.log(`piece in boardstate${piece.constructor.name}`);
       }
     }
     return state;

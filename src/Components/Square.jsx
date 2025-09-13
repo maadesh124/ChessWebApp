@@ -6,6 +6,8 @@ export const Square = ({ globalRef, pos }) => {
   const size = globalRef.current.boardSize / 8;
   const boardState = globalRef.current.board.getBoardState();
   const piece = boardState[pos[0]][pos[1]];
+  console.log(`${piece}`);
+  console.log(`${boardState}`);
   const path = `../../public/assets/${piece}.svg`;
   let color;
   if (pos[0] % 2 === pos[1] % 2) color = `bg-gray-600`;
