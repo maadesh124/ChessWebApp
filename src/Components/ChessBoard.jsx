@@ -76,7 +76,7 @@ function initialise(globalRef) {
 
     if (res === Chess.CHECKMATE) {
       const winColor = globalRef.current.color === 0 ? "Black" : "White";
-      alert(`player ${winColor} won the game`);
+      alert(`${winColor} won the game`);
     }
 
     if (res === Chess.STALE_MATE) alert(`It's a Tie`);
