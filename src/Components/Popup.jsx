@@ -5,7 +5,7 @@ function Popup({ globalRef }) {
   const size = globalRef.current.boardSize / 8;
   let squares = [];
   for (let i = 0; i < pieces.length; i++) {
-    const path = `/assets/${pieces[i]}${globalRef.current.color}.svg`;
+    const path = `../../public/assets/${pieces[i]}${globalRef.current.color}.svg`;
     console.log(`${path}`);
 
     squares.push(
